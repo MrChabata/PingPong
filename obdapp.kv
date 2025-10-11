@@ -1,0 +1,31 @@
+#:kivy 2.3.1
+
+<Root>:
+    orientation: "vertical"
+    spacing: "8dp"
+    padding: "10dp"
+
+    # Верх: прокручиваемый вывод
+    ScrollView:
+        size_hint_y: 1
+        do_scroll_x: False
+        do_scroll_y: True
+
+        TextInput:
+            id: output
+            text: ""
+            readonly: True
+            font_size: "15sp"
+            size_hint_y: None
+            height: max(self.minimum_height, self.parent.height)
+            cursor_blink: True
+            background_color: (0,0,0,1)
+            foreground_color: (1,1,1,1)
+
+    # Низ: кнопка
+    BoxLayout:
+        size_hint_y: None
+        height: "56dp"
+        Button:
+            text: "Подключиться"
+            on_release: app.on_connect_press()
