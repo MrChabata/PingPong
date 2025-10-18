@@ -5,18 +5,13 @@ import logging
 from pathlib import Path
 
 import kivy
-kivy.require("2.3.1")
+#kivy.require("2.3.1")
 
 from kivy.app import App
 from kivy.clock import Clock
 from kivy.uix.boxlayout import BoxLayout
+import obd
 
-# Важно: ставим python-OBD
-# pip install kivy python-OBD
-try:
-    import obd
-except Exception as e:
-    obd = None
 
 APP_LOGGER_NAME = "obd_app"
 
@@ -105,10 +100,7 @@ class OBDApp(App):
         self._poll_thread = None
         self._stop_flag = threading.Event()
 
-        if obd is None:
-            self.logger.error("python-OBD не установлен. pip install python-OBD")
-        else:
-            self.logger.info("Готово. Жми «Подключиться».")
+        self.logger.info("Готово. Жми «Подключиться».")
         return self.root
 
     # Безопасные апдейты UI из любых потоков
@@ -122,9 +114,6 @@ class OBDApp(App):
         Clock.schedule_once(_append, 0)
 
     def on_connect_press(self):
-        if obd is None:
-            self.ui_append("python-OBD не найден. Установите пакет.")
-            return
 
         if self._poll_thread and self._poll_thread.is_alive():
             self.ui_append("Уже подключаюсь, не мешай процессу...")
